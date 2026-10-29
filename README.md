@@ -1,4 +1,7 @@
-# F5-TTS: A Fairytaler that Fakes Fluent and Faithful Speech with Flow Matching
+> [!NOTE]
+> 🇨🇳 本仓库是 [SWivid/F5-TTS](https://github.com/SWivid/F5-TTS) 的非官方中文汉化版：仅翻译 README，代码与子目录文档（如 `src/f5_tts/infer/SHARED.md`）保持上游原样。英文原文见 [README_EN.md](README_EN.md)。
+
+# F5-TTS：借助流匹配（Flow Matching）仿造流畅且忠实语音的"童话讲述者"
 
 [![python](https://img.shields.io/badge/Python-3.10-brightgreen)](https://github.com/SWivid/F5-TTS)
 [![arXiv](https://img.shields.io/badge/arXiv-2410.06885-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2410.06885)
@@ -10,21 +13,21 @@
 [![lab](https://img.shields.io/badge/🏫-PCL-grey?labelColor=lightgrey)](https://www.pcl.ac.cn)
 <!-- <img src="https://github.com/user-attachments/assets/12d7749c-071a-427c-81bf-b87b91def670" alt="Watermark" style="width: 40px; height: auto"> -->
 
-**F5-TTS**: Diffusion Transformer with ConvNeXt V2, faster trained and inference.
+**F5-TTS**：采用 ConvNeXt V2 的扩散 Transformer（Diffusion Transformer），训练与推理速度更快。
 
-**E2 TTS**: Flat-UNet Transformer, closest reproduction from [paper](https://arxiv.org/abs/2406.18009).
+**E2 TTS**：Flat-UNet Transformer，对[论文](https://arxiv.org/abs/2406.18009)最接近的复现。
 
-**Sway Sampling**: Inference-time flow step sampling strategy, greatly improves performance
+**Sway Sampling**：一种推理时的流步采样策略，能显著提升性能。
 
-### Thanks to all the contributors !
+### 感谢所有贡献者！
 
-## News
-- **2025/03/12**: 🔥 F5-TTS v1 base model with better training and inference performance. [Few demo](https://swivid.github.io/F5-TTS_updates).
-- **2024/10/08**: F5-TTS & E2 TTS base models on [🤗 Hugging Face](https://huggingface.co/SWivid/F5-TTS), [🤖 Model Scope](https://www.modelscope.cn/models/SWivid/F5-TTS_Emilia-ZH-EN), [🟣 Wisemodel](https://wisemodel.cn/models/SJTU_X-LANCE/F5-TTS_Emilia-ZH-EN).
+## 最新动态
+- **2025/03/12**：🔥 F5-TTS v1 基础模型，训练与推理性能更佳。[部分演示](https://swivid.github.io/F5-TTS_updates)。
+- **2024/10/08**：F5-TTS 与 E2 TTS 基础模型已发布于 [🤗 Hugging Face](https://huggingface.co/SWivid/F5-TTS)、[🤖 Model Scope](https://www.modelscope.cn/models/SWivid/F5-TTS_Emilia-ZH-EN)、[🟣 Wisemodel](https://wisemodel.cn/models/SJTU_X-LANCE/F5-TTS_Emilia-ZH-EN)。
 
-## Installation
+## 安装
 
-### Create a separate environment if needed
+### 如有需要，可创建独立环境
 
 ```bash
 # Create a conda env with python_version>=3.10  (you could also use virtualenv)
@@ -35,7 +38,7 @@ conda activate f5-tts
 conda install ffmpeg
 ```
 
-### Install PyTorch with matched device
+### 安装与设备相匹配的 PyTorch
 
 <details>
 <summary>NVIDIA GPU</summary>
@@ -62,11 +65,11 @@ conda install ffmpeg
 > # pip install torch==2.5.1+rocm6.2 torchaudio==2.5.1+rocm6.2 --extra-index-url https://download.pytorch.org/whl/rocm6.2
 > ```
 >
-> **Note:** RDNA 3.5 and RDNA 4 GPUs (Radeon 8050S/8060S, RX 9060/9070 series) require
-> ROCm 7.x — these architectures (gfx1151/gfx1201) are not included in ROCm 6.x
-> ([6.2 compatibility matrix](https://rocm.docs.amd.com/en/docs-6.2.4/compatibility/compatibility-matrix.html) vs
-> [7.2 compatibility matrix](https://rocm.docs.amd.com/en/docs-7.2.3/compatibility/compatibility-matrix.html)).
-> Using ROCm 6.x on these GPUs causes `HIP error: invalid device function` ([#1236](https://github.com/SWivid/F5-TTS/issues/1236)).
+> **注意：** RDNA 3.5 与 RDNA 4 架构的 GPU（Radeon 8050S/8060S、RX 9060/9070 系列）需要
+> ROCm 7.x —— 这些架构（gfx1151/gfx1201）并不包含在 ROCm 6.x 中
+> （对比 [6.2 兼容性列表](https://rocm.docs.amd.com/en/docs-6.2.4/compatibility/compatibility-matrix.html) 与
+> [7.2 兼容性列表](https://rocm.docs.amd.com/en/docs-7.2.3/compatibility/compatibility-matrix.html)）。
+> 在这些 GPU 上使用 ROCm 6.x 会导致 `HIP error: invalid device function`（[#1236](https://github.com/SWivid/F5-TTS/issues/1236)）。
 
 </details>
 
@@ -95,15 +98,15 @@ conda install ffmpeg
 
 </details>
 
-### Then you can choose one from below:
+### 然后可以从下面任选其一：
 
-> ### 1. As a pip package (if just for inference)
+> ### 1. 作为 pip 包安装（如果仅用于推理）
 > 
 > ```bash
 > pip install f5-tts
 > ```
 > 
-> ### 2. Local editable (if also do training, finetuning)
+> ### 2. 本地可编辑安装（如果还要进行训练、微调）
 > 
 > ```bash
 > git clone https://github.com/SWivid/F5-TTS.git
@@ -112,7 +115,7 @@ conda install ffmpeg
 > pip install -e .
 > ```
 
-### Docker usage also available
+### 也支持通过 Docker 使用
 ```bash
 # Build from Dockerfile
 docker build -t f5tts:v1 .
@@ -124,35 +127,35 @@ docker container run --rm -it --gpus=all --mount 'type=volume,source=f5-tts,targ
 docker container run --rm -it --gpus=all --mount 'type=volume,source=f5-tts,target=/root/.cache/huggingface/hub/' -p 7860:7860 ghcr.io/swivid/f5-tts:main f5-tts_infer-gradio --host 0.0.0.0
 ```
 
-### Runtime
+### 运行时（Runtime）
 
-Deployment solution with Triton and TensorRT-LLM.
+基于 Triton 与 TensorRT-LLM 的部署方案。
 
-#### Benchmark Results
-Decoding on a single L20 GPU, using 26 different prompt_audio & target_text pairs, 16 NFE.
+#### 基准测试结果
+在单张 L20 GPU 上解码，使用 26 组不同的 prompt_audio 与 target_text 配对，NFE 为 16。
 
-| Model               | Concurrency    | Avg Latency | RTF    | Mode            |
+| 模型                | 并发数          | 平均延迟     | RTF    | 模式             |
 |---------------------|----------------|-------------|--------|-----------------|
-| F5-TTS Base (Vocos) | 2              | 253 ms      | 0.0394 | Client-Server   |
-| F5-TTS Base (Vocos) | 1 (Batch_size) | -           | 0.0402 | Offline TRT-LLM |
-| F5-TTS Base (Vocos) | 1 (Batch_size) | -           | 0.1467 | Offline Pytorch |
+| F5-TTS Base (Vocos) | 2              | 253 ms      | 0.0394 | 客户端-服务器    |
+| F5-TTS Base (Vocos) | 1 (Batch_size) | -           | 0.0402 | 离线 TRT-LLM    |
+| F5-TTS Base (Vocos) | 1 (Batch_size) | -           | 0.1467 | 离线 Pytorch    |
 
-See [detailed instructions](src/f5_tts/runtime/triton_trtllm/README.md) for more information.
+更多信息请参阅[详细说明](src/f5_tts/runtime/triton_trtllm/README.md)。
 
 
-## Inference
+## 推理
 
-- In order to achieve desired performance, take a moment to read [detailed guidance](src/f5_tts/infer).
-- By properly searching the keywords of problem encountered, [issues](https://github.com/SWivid/F5-TTS/issues?q=is%3Aissue) are very helpful.
+- 若想达到理想的效果，请花点时间阅读[详细指南](src/f5_tts/infer)。
+- 只要恰当地搜索所遇到问题的关键字，[issues](https://github.com/SWivid/F5-TTS/issues?q=is%3Aissue) 会非常有帮助。
 
-### 1. Gradio App
+### 1. Gradio 应用
 
-Currently supported features:
+当前支持的功能：
 
-- Basic TTS with Chunk Inference
-- Multi-Style / Multi-Speaker Generation
-- Voice Chat powered by Qwen2.5-3B-Instruct
-- [Custom inference with more language support](src/f5_tts/infer/SHARED.md)
+- 带分块推理（Chunk Inference）的基础 TTS
+- 多风格 / 多说话人生成
+- 由 Qwen2.5-3B-Instruct 驱动的语音聊天
+- [支持更多语言的自定义推理](src/f5_tts/infer/SHARED.md)
 
 ```bash
 # Launch a Gradio app (web interface)
@@ -166,7 +169,7 @@ f5-tts_infer-gradio --share
 ```
 
 <details>
-<summary>NVIDIA device docker compose file example</summary>
+<summary>NVIDIA 设备的 docker compose 文件示例</summary>
 
 ```yaml
 services:
@@ -192,7 +195,7 @@ volumes:
 
 </details>
 
-### 2. CLI Inference
+### 2. CLI 推理
 
 ```bash
 # Run with flags
@@ -212,59 +215,59 @@ f5-tts_infer-cli -c src/f5_tts/infer/examples/multi/story.toml
 ```
 
 
-## Training
+## 训练
 
-### 1. With Hugging Face Accelerate
+### 1. 使用 Hugging Face Accelerate
 
-Refer to [training & finetuning guidance](src/f5_tts/train) for best practice.
+最佳实践请参阅[训练与微调指南](src/f5_tts/train)。
 
-### 2. With Gradio App
+### 2. 使用 Gradio 应用
 
 ```bash
 # Quick start with Gradio web interface
 f5-tts_finetune-gradio
 ```
 
-Read [training & finetuning guidance](src/f5_tts/train) for more instructions.
+更多操作说明请阅读[训练与微调指南](src/f5_tts/train)。
 
 
-## [Evaluation](src/f5_tts/eval)
+## [评估](src/f5_tts/eval)
 
 
-## Development
+## 开发
 
-Use pre-commit to ensure code quality (will run linters and formatters automatically):
+使用 pre-commit 保证代码质量（会自动运行代码检查与格式化工具）：
 
 ```bash
 pip install pre-commit
 pre-commit install
 ```
 
-When making a pull request, before each commit, run: 
+提交 pull request 时，请在每次 commit 之前运行：
 
 ```bash
 pre-commit run --all-files
 ```
 
-Note: Some model components have linting exceptions for E722 to accommodate tensor notation.
+注意：部分模型组件针对 E722 设置了 lint 豁免，以兼容张量记法。
 
 
-## Acknowledgements
+## 致谢
 
-- [E2-TTS](https://arxiv.org/abs/2406.18009) brilliant work, simple and effective
-- [Emilia](https://arxiv.org/abs/2407.05361), [WenetSpeech4TTS](https://arxiv.org/abs/2406.05763), [LibriTTS](https://arxiv.org/abs/1904.02882), [LJSpeech](https://keithito.com/LJ-Speech-Dataset/) valuable datasets
-- [lucidrains](https://github.com/lucidrains) initial CFM structure with also [bfs18](https://github.com/bfs18) for discussion
-- [SD3](https://arxiv.org/abs/2403.03206) & [Hugging Face diffusers](https://github.com/huggingface/diffusers) DiT and MMDiT code structure
-- [torchdiffeq](https://github.com/rtqichen/torchdiffeq) as ODE solver, [Vocos](https://huggingface.co/charactr/vocos-mel-24khz) and [BigVGAN](https://github.com/NVIDIA/BigVGAN) as vocoder
-- [FunASR](https://github.com/modelscope/FunASR), [faster-whisper](https://github.com/SYSTRAN/faster-whisper), [UniSpeech](https://github.com/microsoft/UniSpeech), [SpeechMOS](https://github.com/tarepan/SpeechMOS) for evaluation tools
-- [ctc-forced-aligner](https://github.com/MahmoudAshraf97/ctc-forced-aligner) for speech edit test
-- [mrfakename](https://x.com/realmrfakename) huggingface space demo ~
-- [f5-tts-mlx](https://github.com/lucasnewman/f5-tts-mlx/tree/main) Implementation with MLX framework by [Lucas Newman](https://github.com/lucasnewman)
-- [F5-TTS-ONNX](https://github.com/DakeQQ/F5-TTS-ONNX) ONNX Runtime version by [DakeQQ](https://github.com/DakeQQ)
-- [Yuekai Zhang](https://github.com/yuekaizhang) Triton and TensorRT-LLM support ~
+- [E2-TTS](https://arxiv.org/abs/2406.18009)：出色的成果，简单而有效
+- [Emilia](https://arxiv.org/abs/2407.05361)、[WenetSpeech4TTS](https://arxiv.org/abs/2406.05763)、[LibriTTS](https://arxiv.org/abs/1904.02882)、[LJSpeech](https://keithito.com/LJ-Speech-Dataset/)：宝贵的数据集
+- [lucidrains](https://github.com/lucidrains)：最初的 CFM 结构，同时也感谢 [bfs18](https://github.com/bfs18) 参与讨论
+- [SD3](https://arxiv.org/abs/2403.03206) 与 [Hugging Face diffusers](https://github.com/huggingface/diffusers)：DiT 与 MMDiT 代码结构
+- [torchdiffeq](https://github.com/rtqichen/torchdiffeq)：用作 ODE 求解器；[Vocos](https://huggingface.co/charactr/vocos-mel-24khz) 与 [BigVGAN](https://github.com/NVIDIA/BigVGAN)：用作 vocoder（声码器）
+- [FunASR](https://github.com/modelscope/FunASR)、[faster-whisper](https://github.com/SYSTRAN/faster-whisper)、[UniSpeech](https://github.com/microsoft/UniSpeech)、[SpeechMOS](https://github.com/tarepan/SpeechMOS)：评估工具
+- [ctc-forced-aligner](https://github.com/MahmoudAshraf97/ctc-forced-aligner)：用于语音编辑测试
+- [mrfakename](https://x.com/realmrfakename)：Hugging Face Space 演示 ~
+- [f5-tts-mlx](https://github.com/lucasnewman/f5-tts-mlx/tree/main)：由 [Lucas Newman](https://github.com/lucasnewman) 基于 MLX 框架的实现
+- [F5-TTS-ONNX](https://github.com/DakeQQ/F5-TTS-ONNX)：由 [DakeQQ](https://github.com/DakeQQ) 提供的 ONNX Runtime 版本
+- [Yuekai Zhang](https://github.com/yuekaizhang)：Triton 与 TensorRT-LLM 支持 ~
 
-## Citation
-If our work and codebase is useful for you, please cite as:
+## 引用
+如果我们的工作和代码库对你有帮助，请按如下方式引用：
 ```
 @article{chen-etal-2024-f5tts,
       title={F5-TTS: A Fairytaler that Fakes Fluent and Faithful Speech with Flow Matching}, 
@@ -273,6 +276,6 @@ If our work and codebase is useful for you, please cite as:
       year={2024},
 }
 ```
-## License
+## 许可证
 
-Our code is released under MIT License. The pre-trained models are licensed under the CC-BY-NC license due to the training data Emilia, which is an in-the-wild dataset. Sorry for any inconvenience this may cause.
+我们的代码以 MIT 许可证发布。由于训练数据 Emilia 属于真实场景（in-the-wild）数据集，预训练模型采用 CC-BY-NC 许可证授权。由此带来的不便，敬请谅解。
